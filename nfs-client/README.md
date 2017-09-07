@@ -1,9 +1,15 @@
 # kubernetes nfs-client-provisioner
 
-[![Docker Repository on Quay](https://quay.io/repository/external_storage/nfs-client-provisioner/status "Docker Repository on Quay")](https://quay.io/repository/external_storage/nfs-client-provisioner)
+## IMPORTANT NOTE
 
-- pv provisioned as ${namespace}-${pvcName}-${pvName}
-- pv recycled as archieved-${namespace}-${pvcName}-${pvName}
+This fork has been modified to use static paths based on the namespace and PVC
+name.  In addition, it does not delete the underlying resources for an
+allocated PV when it is deleted.  This is intended to be used in a lab
+environment where clusters may be rebuilt regularly, and it's desirable to save
+PVs across installs.
+
+- pv provisioned as ${namespace}-${pvcName}
+- pv recycled as archieved-${namespace}-${pvcName}
 
 # deploy
 - modify and deploy `deploy/deployment.yaml`
@@ -47,4 +53,3 @@ $ oc patch deployment nfs-client-provisioner -p '{"spec":{"template":{"spec":{"s
 - check the folder and file "SUCCESS" created
 - `kubectl delete -f deploy/test-pod.yaml`
 - `kubectl delete -f deploy/test-claim.yaml`
-- check the folder renamed to `archived-???`

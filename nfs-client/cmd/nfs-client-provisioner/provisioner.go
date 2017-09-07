@@ -58,7 +58,7 @@ func (p *nfsProvisioner) Provision(options controller.VolumeOptions) (*v1.Persis
 	pvcNamespace := options.PVC.Namespace
 	pvcName := options.PVC.Name
 
-	pvName := strings.Join([]string{pvcNamespace, pvcName, options.PVName}, "-")
+	pvName := strings.Join([]string{pvcNamespace, pvcName}, "-")
 
 	fullPath := filepath.Join(mountPath, pvName)
 	glog.V(4).Infof("creating path %s", fullPath)
@@ -92,12 +92,7 @@ func (p *nfsProvisioner) Provision(options controller.VolumeOptions) (*v1.Persis
 }
 
 func (p *nfsProvisioner) Delete(volume *v1.PersistentVolume) error {
-	path := volume.Spec.PersistentVolumeSource.NFS.Path
-	pvName := filepath.Base(path)
-	oldPath := filepath.Join(mountPath, pvName)
-	archivePath := filepath.Join(mountPath, "archived-"+pvName)
-	glog.V(4).Infof("archiving path %s to %s", oldPath, archivePath)
-	return os.Rename(oldPath, archivePath)
+	return nil
 }
 
 func main() {
