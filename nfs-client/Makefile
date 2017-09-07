@@ -16,7 +16,7 @@ ifeq ($(REGISTRY),)
         REGISTRY = quay.io/external_storage/
 endif
 ifeq ($(VERSION),)
-        VERSION = latest
+        VERSION = $(shell git describe --dirty)
 endif
 IMAGE = $(REGISTRY)nfs-client-provisioner:$(VERSION)
 IMAGE_ARM = $(REGISTRY)nfs-client-provisioner-arm:$(VERSION) 
